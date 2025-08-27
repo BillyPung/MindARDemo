@@ -48,6 +48,26 @@
             transition: width 0.3s ease;
             border-radius: 2px;
         }
+
+        /* Copy Link Button */
+        #copy-link-button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-width: 200px;
+        }
+
+        #copy-link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+        }
     </style>
 
     <!--
@@ -65,19 +85,38 @@
 <!-- Start UI Overlay -->
 <div id="ui-overlay">
     <div class="start-container">
-        <p>同意摄像头权限后，将摄像头对准识别图像。</p>
-        <button id="start-button" disabled>系统准备中...</button>
-        <div id="loading-indicator">
-            <div class="spinner"></div>
-            <p style="color: white; margin-top: 10px;">启动AR中</p>
+        <p id="main-instruction">同意摄像头权限后，将摄像头对准识别图像。</p>
+
+        <!-- Safari Warning (initially hidden) -->
+        <div id="safari-warning" style="display: none;">
+            <h3 style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ 浏览器不兼容</h3>
+            <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">
+                Safari浏览器对AR功能支持有限，请使用以下浏览器获得最佳体验：
+            </p>
+            <p style="color: white; font-weight: bold; margin-bottom: 1.5rem;">
+                📱 Chrome | 🦊 Firefox | 🌐 Edge
+            </p>
+            <button id="copy-link-button">复制链接</button>
+            <p id="copy-success" style="color: #4CAF50; margin-top: 10px; display: none;">
+                ✅ 链接已复制！请在其他浏览器中打开
+            </p>
         </div>
-        <div id="model-preload-status" style="color: rgba(255,255,255,0.8); margin-top: 10px; display: none;">
-            正在预加载3D模型...
-            <div class="loading-progress">
-                <div class="loading-progress-bar" id="preload-progress"></div>
+
+        <!-- Normal start interface -->
+        <div id="normal-interface">
+            <button id="start-button" disabled>系统准备中...</button>
+            <div id="loading-indicator">
+                <div class="spinner"></div>
+                <p style="color: white; margin-top: 10px;">启动AR中</p>
             </div>
+            <div id="model-preload-status" style="color: rgba(255,255,255,0.8); margin-top: 10px; display: none;">
+                正在预加载3D模型...
+                <div class="loading-progress">
+                    <div class="loading-progress-bar" id="preload-progress"></div>
+                </div>
+            </div>
+            <div id="error-message" style="color: #ff6b6b; margin-top: 10px; display: none;"></div>
         </div>
-        <div id="error-message" style="color: #ff6b6b; margin-top: 10px; display: none;"></div>
     </div>
 </div>
 
@@ -159,6 +198,16 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Safari Detection
+        function isSafariOrWeChatIOS() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isSafari = ua.indexOf('safari') > -1 &&
+                ua.indexOf('chrome') === -1 &&
+                ua.indexOf('firefox') === -1;
+            const isWeChatIOS = /micromessenger/.test(ua);
+            return isSafari || isWeChatIOS;
+        }
+
         // Get references to DOM elements
         const sceneEl = document.querySelector('a-scene');
         const uiOverlay = document.getElementById('ui-overlay');
@@ -169,6 +218,55 @@
         const errorMessage = document.getElementById('error-message');
         const modelLoadingOverlay = document.getElementById('model-loading-overlay');
         const arProgress = document.getElementById('ar-progress');
+
+        // Safari-related elements
+        const safariWarning = document.getElementById('safari-warning');
+        const normalInterface = document.getElementById('normal-interface');
+        const copyLinkButton = document.getElementById('copy-link-button');
+        const copySuccess = document.getElementById('copy-success');
+        const mainInstruction = document.getElementById('main-instruction');
+
+        // Check for Safari and show appropriate interface
+        if (isSafariOrWeChatIOS()) {
+            console.log("Safari detected - showing browser compatibility warning");
+            safariWarning.style.display = 'block';
+            normalInterface.style.display = 'none';
+            mainInstruction.style.display = 'none';
+
+            // Copy link button functionality
+            copyLinkButton.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    copySuccess.style.display = 'block';
+                    copyLinkButton.textContent = '已复制！';
+
+                    setTimeout(() => {
+                        copySuccess.style.display = 'none';
+                        copyLinkButton.textContent = '复制链接';
+                    }, 3000);
+                } catch (error) {
+                    console.error('Failed to copy link:', error);
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = window.location.href;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+
+                    copySuccess.style.display = 'block';
+                    copyLinkButton.textContent = '已复制！';
+
+                    setTimeout(() => {
+                        copySuccess.style.display = 'none';
+                        copyLinkButton.textContent = '复制链接';
+                    }, 3000);
+                }
+            });
+
+            // Stop here - don't initialize AR for Safari users
+            return;
+        }
 
         // Target elements
         const armorModel = document.getElementById('armor-model');
