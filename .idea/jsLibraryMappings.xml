@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{aframe, aframe-extras, mind-ar, mindar-image-aframe.prod}" />
+    <file url="PROJECT" libraries="{aframe, aframe-extras, mind-ar, mindar-image-aframe.prod, style}" />
   </component>
 </project>

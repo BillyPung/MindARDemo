@@ -12,5 +12,6 @@
     <orderEntry type="library" name="mind-ar" level="application" />
     <orderEntry type="library" name="aframe-extras" level="application" />
     <orderEntry type="library" name="mindar-image-aframe.prod" level="application" />
+    <orderEntry type="library" name="style" level="application" />
   </component>
 </module>
