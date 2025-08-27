@@ -3,18 +3,18 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdmirror.com/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
-    <script src="https://cdn.jsdmirror.com/gh/BillyPung/mind-ar-js/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/BillyPung/mind-ar-js/mindar-image-aframe.prod.js"></script>
     <script type="importmap">
         {
           "imports": {
-            "three": "https://cdn.jsdmirror.com/npm/three@0.179.1/build/three.module.js",
+            "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
             "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/",
-            "mindar-image-three":"https://cdn.jsdmirror.com/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+            "mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
           }
         }
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/css/style.css">
     <title>AR Demo</title>
 
     <!--
@@ -52,19 +52,19 @@
 <div id="status">Ready to scan</div>-->
 
 <!-- A-Frame Scene -->
-<a-scene mindar-image="imageTargetSrc: https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/mind/armor-targets.mind;
+<a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/mind/armor-targets.mind;
             maxTrack: 1; filterMinCF: 0.0001; filterBeta: 0.01; warmupTolerance: 3; autoStart: false;"
          color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
          vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
 
     <a-assets>
-        <img id="circle" src="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/imgs/Darksign_(DSIII).png"/>
-        <img id="sword" src="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/imgs/sword.png"/>
-        <a-asset-item id="avatarModel" src="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/models/scene.gltf"></a-asset-item>
+        <img id="circle" src="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/imgs/Darksign_(DSIII).png"/>
+        <img id="sword" src="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/imgs/sword.png"/>
+        <a-asset-item id="avatarModel" src="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/models/scene.gltf"></a-asset-item>
 
         <!-- Sound Assets -->
-        <audio id="background-music" src="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/sounds/ShadowEmbrace.mp3" preload="auto"></audio>
-        <audio id="roar-sound" src="https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/sounds/roar.mp3" preload="auto"></audio>
+        <audio id="background-music" src="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/sounds/ShadowEmbrace.mp3" preload="auto"></audio>
+        <audio id="roar-sound" src="https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/sounds/roar.mp3" preload="auto"></audio>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"
@@ -126,11 +126,11 @@
         // Preload assets function
         async function preloadAssets() {
             const assets = [
-                'https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/imgs/Darksign_(DSIII).png',
-                'https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/imgs/sword.png',
-                'https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/models/scene.gltf',
-                'https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/sounds/roar.mp3',
-                'https://cdn.jsdmirror.com/gh/BillyPung/MindARDemo/assets/sounds/ShadowEmbrace.mp3'
+                'https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/imgs/Darksign_(DSIII).png',
+                'https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/imgs/sword.png',
+                'https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/models/scene.gltf',
+                'https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/sounds/roar.mp3',
+                'https://cdn.jsdelivr.net/gh/BillyPung/MindARDemo/assets/sounds/ShadowEmbrace.mp3'
             ];
 
             const promises = assets.map(url => {
