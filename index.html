@@ -91,14 +91,14 @@
         <div id="safari-warning" style="display: none;">
             <h3 style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ 浏览器不兼容</h3>
             <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">
-                Safari浏览器对AR功能支持有限，请使用以下浏览器获得最佳体验：
+                您的浏览器对AR功能支持有限，请使用以下浏览器获得最佳体验：
             </p>
             <p style="color: white; font-weight: bold; margin-bottom: 1.5rem;">
-                📱 Chrome | 🦊 Firefox | 🌐 Edge
+                Chrome | Firefox | Edge
             </p>
             <button id="copy-link-button">复制链接</button>
-            <p id="copy-success" style="color: #4CAF50; margin-top: 10px; display: none;">
-                ✅ 链接已复制！请在其他浏览器中打开
+            <p id="copy-success" style="color: #979f97; margin-top: 10px; display: none;">
+                链接已复制！请在其他浏览器中打开
             </p>
         </div>
 
@@ -201,12 +201,19 @@
         // Safari Detection
         function isSafariOrWeChatIOS() {
             const ua = navigator.userAgent.toLowerCase();
-            const isSafari = ua.indexOf('safari') > -1 &&
-                ua.indexOf('chrome') === -1 &&
-                ua.indexOf('firefox') === -1;
-            const isWeChatIOS = /micromessenger/.test(ua);
+            const isIOS = /iphone|ipad|ipod/.test(ua);
+
+            const isSafari = isIOS &&
+                ua.includes('safari') &&
+                !ua.includes('crios') &&
+                !ua.includes('fxios') &&
+                !ua.includes('edgios');
+
+            const isWeChatIOS = /micromessenger/.test(ua) && isIOS;
+
             return isSafari || isWeChatIOS;
         }
+
 
         // Get references to DOM elements
         const sceneEl = document.querySelector('a-scene');
