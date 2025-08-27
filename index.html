@@ -304,6 +304,16 @@
             console.log("Armor target found");
             targetVisible = true;
 
+            // Play background music when target is found
+            try {
+                if (backgroundMusicEntity && backgroundMusicEntity.components.sound) {
+                    backgroundMusicEntity.components.sound.playSound();
+                    console.log("Background music started (target found)");
+                }
+            } catch (error) {
+                console.log("Background music failed to start:", error);
+            }
+
             // Show loading overlay if model isn't loaded yet
             if (!armorModel.getAttribute('visible')) {
                 modelLoadingOverlay.style.display = 'block';
@@ -328,6 +338,16 @@
             console.log("Armor target lost");
             targetVisible = false;
             modelLoadingOverlay.style.display = 'none';
+
+            // Pause background music when target is lost
+            try {
+                if (backgroundMusicEntity && backgroundMusicEntity.components.sound) {
+                    backgroundMusicEntity.components.sound.pauseSound();
+                    console.log("Background music paused (target lost)");
+                }
+            } catch (error) {
+                console.log("Background music failed to pause:", error);
+            }
         });
 
         // Start button click handler
@@ -368,18 +388,6 @@
         sceneEl.addEventListener("arReady", (event) => {
             console.log("MindAR is ready");
             uiOverlay.classList.add('hidden');
-
-            // Try to start background music
-            setTimeout(() => {
-                try {
-                    if (backgroundMusicEntity && backgroundMusicEntity.components.sound) {
-                        backgroundMusicEntity.components.sound.playSound();
-                        console.log("Background music started");
-                    }
-                } catch (error) {
-                    console.log("Background music failed to start:", error);
-                }
-            }, 1000);
         });
 
         sceneEl.addEventListener("arError", (event) => {
